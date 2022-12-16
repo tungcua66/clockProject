@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/css';
 import Clock from './components/Clock';
 
 const AppContainer = styled.div(() => ({
@@ -11,14 +9,10 @@ const AppContainer = styled.div(() => ({
   width: '50em',
 }));
 
-const App = () => {
-  const test = 1;
-
-  return (
-    <AppContainer>
-      <Clock />
-    </AppContainer>
-  );
-};
+const App = () => (
+  <AppContainer>
+    <Clock />
+  </AppContainer>
+);
 
 export default App;
