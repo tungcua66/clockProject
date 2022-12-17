@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 const MainContainer = styled.div(() => ({
   display: 'grid',
   gridTemplateColumns: '0.5fr 2fr 0.5fr',
+  gap: '1px',
   width: '300px',
   height: '300px',
   backgroundColor: '#d5fa78',
@@ -30,6 +31,7 @@ const TimeContainer = styled.div(({ lightModeIsOn = false }) => ({
   fontFamily: 'Orbitron',
   fontSize: '2em',
 }));
+
 const TimeUnit = styled.div(({ lightModeIsOn = false, isSelected = false }) => ({
   width: '1em',
   height: '1em',
@@ -37,7 +39,9 @@ const TimeUnit = styled.div(({ lightModeIsOn = false, isSelected = false }) => (
   fontFamily: 'Orbitron',
   fontSize: '2em',
   backgroundColor: isSelected ? '#e7f0a5' : 'none',
+  boxShadow: lightModeIsOn ? '0 0 10px #69f564, 0 0 40px #69f564, 0 0 80px #69f564' : 'none',
 }));
+
 const ButtonContainer = styled.button(({ justifySelf }) => ({
   width: '50px',
   height: '30px',
