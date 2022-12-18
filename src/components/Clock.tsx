@@ -4,7 +4,19 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 import { getCurrentTimeInTimeZone } from '../helpers/calculateTimeZone';
 
-const MainContainer = styled.div(() => ({
+const Container = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '2px',
+}));
+
+const Title = styled.div(() => ({
+  font: '2rem',
+  color: 'red',
+}));
+
+const ClockContainer = styled.div(() => ({
   display: 'grid',
   gridTemplateColumns: '0.5fr 2fr 0.5fr',
   gap: '1px',
@@ -52,7 +64,14 @@ const ButtonContainer = styled.button(({ justifySelf }) => ({
   justifySelf,
 }));
 
-const Clock = ({ timeZone }: string) => {
+interface ClockProps {
+  timeZone: string,
+  desc: string,
+}
+
+const Clock = ({
+  timeZone, desc,
+}: ClockProps) => {
   const [time, setTime] = useState(moment());
   const [lightModeIsOn, setLightMode] = useState(false);
   const [mode, setMode] = useState(0); // 0 = noEditable, 1 = hour, 2 = minutes
@@ -96,56 +115,62 @@ const Clock = ({ timeZone }: string) => {
   }, [timeAcc, timeZone]);
 
   return (
-    <MainContainer className="MainContainer">
-      <BlockContainer className="LeftBlock">
-        <ButtonContainer
-          className="ButtonLightMode"
-          onMouseDown={() => { lightModeOnClickHandler(); }}
-        />
-        <ButtonContainer
-          className="ButtonResetMode"
-          onMouseDown={() => { resetModeOnClickHandler(); }}
-        />
-      </BlockContainer>
-      <TimeContainer lightModeIsOn={lightModeIsOn}>
-        <TimeUnit
-          className="Hour"
-          lightModeIsOn={lightModeIsOn}
-          isSelected={mode === 1}
-        >
-          {' '}
-          {time.hours() < 10 ? `0${time.hours()}` : time.hours()}
+    <Container>
+      <Title>
+        {' '}
+        {desc}
+      </Title>
+      <ClockContainer className="ClockContainer">
+        <BlockContainer className="LeftBlock">
+          <ButtonContainer
+            className="ButtonLightMode"
+            onMouseDown={() => { lightModeOnClickHandler(); }}
+          />
+          <ButtonContainer
+            className="ButtonResetMode"
+            onMouseDown={() => { resetModeOnClickHandler(); }}
+          />
+        </BlockContainer>
+        <TimeContainer lightModeIsOn={lightModeIsOn}>
+          <TimeUnit
+            className="Hour"
+            lightModeIsOn={lightModeIsOn}
+            isSelected={mode === 1}
+          >
+            {' '}
+            {time.hours() < 10 ? `0${time.hours()}` : time.hours()}
 
-        </TimeUnit>
-        :
-        <TimeUnit
-          className="Minutes"
-          lightModeIsOn={lightModeIsOn}
-          isSelected={mode === 2}
+          </TimeUnit>
+          :
+          <TimeUnit
+            className="Minutes"
+            lightModeIsOn={lightModeIsOn}
+            isSelected={mode === 2}
+          >
+            {' '}
+            {time.minutes() < 10 ? `0${time.minutes()}` : time.minutes()}
+          </TimeUnit>
+          :
+          <TimeUnit className="Seconds" lightModeIsOn={lightModeIsOn}>
+            {' '}
+            {time.seconds() < 10 ? `0${time.seconds()}` : time.seconds()}
+          </TimeUnit>
+        </TimeContainer>
+        <BlockContainer className="RightBlock">
+          <ButtonContainer
+            className="ButtonMode"
+            onMouseDown={() => { buttonModeOnClickHandler(); }}
+          />
+          <ButtonContainer
+            className="ButtonIncrease"
+            justifySelf="start"
+            onMouseDown={() => { buttonIncreaseOnClickHandler(); }}
+          />
+        </BlockContainer>
 
-        >
-          {' '}
-          {time.minutes() < 10 ? `0${time.minutes()}` : time.minutes()}
-        </TimeUnit>
-        :
-        <TimeUnit className="Seconds" lightModeIsOn={lightModeIsOn}>
-          {' '}
-          {time.seconds() < 10 ? `0${time.seconds()}` : time.seconds()}
-        </TimeUnit>
-      </TimeContainer>
-      <BlockContainer className="RightBlock">
-        <ButtonContainer
-          className="ButtonMode"
-          onMouseDown={() => { buttonModeOnClickHandler(); }}
-        />
-        <ButtonContainer
-          className="ButtonIncrease"
-          justifySelf="start"
-          onMouseDown={() => { buttonIncreaseOnClickHandler(); }}
-        />
-      </BlockContainer>
+      </ClockContainer>
+    </Container>
 
-    </MainContainer>
   );
 };
 

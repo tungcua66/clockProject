@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import Clock from './components/Clock';
 import Form from './components/Form';
 
@@ -10,12 +12,26 @@ const AppContainer = styled.div(() => ({
   flexWrap: 'wrap',
 }));
 
-const App = () => (
-  <AppContainer>
-    <Form />
-    {/* <h1> hello</h1> */}
-    <Clock timeZone="GMT+1" />
-  </AppContainer>
-);
+const App = () => {
+  const [clockList, setClockList] = useState([
+    {
+      id: nanoid(), value: 'GMT+1', desc: 'Europe/Paris',
+    },
+  ]);
+  return (
+    <AppContainer>
+      <Form />
+      {clockList.map((clock) => (
+        <Clock
+          key={clock.id}
+          timeZone={`${clock.value}`}
+          desc={`${clock.desc}`}
+          clockList={clockList}
+          setClockList={setClockList}
+        />
+      ))}
+    </AppContainer>
+  );
+};
 
 export default App;

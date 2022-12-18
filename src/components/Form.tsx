@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/css';
 import { useState } from 'react';
 import gmtList from '../data/gmtList';
 
@@ -17,7 +16,6 @@ const GMTSelectGroup = styled.div(() => ({
 }));
 
 const Form = () => {
-  const test = 0;
   const [selectedValue, setSelectedValue] = useState();
   return (
     <Container>

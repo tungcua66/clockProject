@@ -22,7 +22,6 @@ export const getCurrentTimeInTimeZone = (gmtString: string) => {
   const gmtOffset = parseInt(gmtString.slice(4), 10);
 
   // convert the UTC time to the desired time zone
-  // const timeInCustomTimeZone = utcTime.tz(`Etc/GMT${gmtOffset > 0 ? '+' : ''}${gmtOffset}`);
   const timeInCustomTimeZone = moment.utc().utcOffset(gmtOffset);
 
   // return the time in the desired time zone as a string
