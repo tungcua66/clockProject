@@ -61,13 +61,11 @@ const Clock = ({ timeZone }: string) => {
   const lightModeOnClickHandler = () => {
     setLightMode((prev) => !prev);
   };
+  const resetModeOnClickHandler = () => {
+    setTimeAcc({ hourAcc: 0, minuteAcc: 0 });
+  };
 
   const buttonModeOnClickHandler = () => {
-    console.log('typeof time', typeof time);
-    console.log('time.hours()', time.hour());
-    console.log('GMT+0', getCurrentTimeInTimeZone('GMT+0'));
-    console.log('GMT+1', getCurrentTimeInTimeZone('GMT+1'));
-    console.log('GMT+7', getCurrentTimeInTimeZone('GMT+7'));
     setMode((prev) => {
       if (prev === 2) {
         return 0;
@@ -87,14 +85,11 @@ const Clock = ({ timeZone }: string) => {
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      // const newTime = moment();
       const newTime = getCurrentTimeInTimeZone(timeZone);
       newTime.set({
         hour: newTime.hours() + timeAcc.hourAcc,
         minute: newTime.minutes() + timeAcc.minuteAcc,
       });
-      // newTime.hours(newTime.hours() + timeAcc.hourAcc);
-      // newTime.setMinutes(newTime.getMinutes() + timeAcc.minuteAcc);
       setTime(newTime);
     }, 100);
     return () => { clearInterval(timerId); };
@@ -106,6 +101,10 @@ const Clock = ({ timeZone }: string) => {
         <ButtonContainer
           className="ButtonLightMode"
           onMouseDown={() => { lightModeOnClickHandler(); }}
+        />
+        <ButtonContainer
+          className="ButtonResetMode"
+          onMouseDown={() => { resetModeOnClickHandler(); }}
         />
       </BlockContainer>
       <TimeContainer lightModeIsOn={lightModeIsOn}>
