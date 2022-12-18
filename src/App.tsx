@@ -29,9 +29,6 @@ const App = () => {
       id: nanoid(), value: 'GMT+1', desc: 'Europe/Paris',
     },
   ]);
-  useEffect(() => {
-    console.log('clockList', clockList)
-  }, [clockList]);
 
   return (
     <>
