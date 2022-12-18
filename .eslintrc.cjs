@@ -39,5 +39,15 @@ module.exports = {
       props: true,
       ignorePropertyModificationsFor: ['draft'],
     }],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
 };

@@ -13,6 +13,7 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@reduxjs/toolkit": "^1.8.0",
+    "moment": "^2.26.0",
     "nodemon": "^2.0.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

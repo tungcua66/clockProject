@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
+
 import styled from '@emotion/styled';
+import moment from 'moment';
+import { getCurrentTimeInTimeZone } from '../helpers/calculateTimeZone';
 
 const MainContainer = styled.div(() => ({
   display: 'grid',
@@ -49,8 +52,8 @@ const ButtonContainer = styled.button(({ justifySelf }) => ({
   justifySelf,
 }));
 
-const Clock = () => {
-  const [date, setDate] = useState(new Date());
+const Clock = ({ timeZone }: string) => {
+  const [time, setTime] = useState(moment());
   const [lightModeIsOn, setLightMode] = useState(false);
   const [mode, setMode] = useState(0); // 0 = noEditable, 1 = hour, 2 = minutes
   const [timeAcc, setTimeAcc] = useState({ hourAcc: 0, minuteAcc: 0 });
@@ -60,6 +63,11 @@ const Clock = () => {
   };
 
   const buttonModeOnClickHandler = () => {
+    console.log('typeof time', typeof time);
+    console.log('time.hours()', time.hour());
+    console.log('GMT+0', getCurrentTimeInTimeZone('GMT+0'));
+    console.log('GMT+1', getCurrentTimeInTimeZone('GMT+1'));
+    console.log('GMT+7', getCurrentTimeInTimeZone('GMT+7'));
     setMode((prev) => {
       if (prev === 2) {
         return 0;
@@ -79,13 +87,18 @@ const Clock = () => {
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      const newDate = new Date();
-      newDate.setHours(newDate.getHours() + timeAcc.hourAcc);
-      newDate.setMinutes(newDate.getMinutes() + timeAcc.minuteAcc);
-      setDate(newDate);
+      // const newTime = moment();
+      const newTime = getCurrentTimeInTimeZone(timeZone);
+      newTime.set({
+        hour: newTime.hours() + timeAcc.hourAcc,
+        minute: newTime.minutes() + timeAcc.minuteAcc,
+      });
+      // newTime.hours(newTime.hours() + timeAcc.hourAcc);
+      // newTime.setMinutes(newTime.getMinutes() + timeAcc.minuteAcc);
+      setTime(newTime);
     }, 100);
     return () => { clearInterval(timerId); };
-  }, [timeAcc]);
+  }, [timeAcc, timeZone]);
 
   return (
     <MainContainer className="MainContainer">
@@ -102,7 +115,7 @@ const Clock = () => {
           isSelected={mode === 1}
         >
           {' '}
-          {date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}
+          {time.hours() < 10 ? `0${time.hours()}` : time.hours()}
 
         </TimeUnit>
         :
@@ -113,18 +126,17 @@ const Clock = () => {
 
         >
           {' '}
-          {date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}
+          {time.minutes() < 10 ? `0${time.minutes()}` : time.minutes()}
         </TimeUnit>
         :
         <TimeUnit className="Seconds" lightModeIsOn={lightModeIsOn}>
           {' '}
-          {date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()}
+          {time.seconds() < 10 ? `0${time.seconds()}` : time.seconds()}
         </TimeUnit>
       </TimeContainer>
       <BlockContainer className="RightBlock">
         <ButtonContainer
           className="ButtonMode"
-          date={date}
           onMouseDown={() => { buttonModeOnClickHandler(); }}
         />
         <ButtonContainer

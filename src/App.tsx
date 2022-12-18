@@ -11,7 +11,7 @@ const AppContainer = styled.div(() => ({
 
 const App = () => (
   <AppContainer>
-    <Clock />
+    <Clock timeZone="GMT+1" />
   </AppContainer>
 );
 
