@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import gmtList from '../data/gmtList';
 
+
 const Container = styled.div(() => ({
   display: 'flex',
   flexDirection: 'column',
@@ -30,8 +31,7 @@ const Form = ({ clockList, setClockList }: formProps) => {
 
   const createNewClockHandler = () => {
     if(selectedValue !== 'Select GMT:' 
-    && clockList.findIndex((clock) => clock.value !== selectedValue) !== -1) {
-      console.log('hey im in');
+    && !clockList.some((clock) => clock.value === selectedValue)) {
       const selectedGMT = gmtList.find((gmt) => gmt.value === selectedValue);
       setClockList([...clockList, selectedGMT]);
     }
