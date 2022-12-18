@@ -20,14 +20,15 @@ const App = () => {
   ]);
   return (
     <AppContainer>
-      <Form />
+      <Form
+        clockList={clockList}
+        setClockList={setClockList}
+      />
       {clockList.map((clock) => (
         <Clock
           key={clock.id}
           timeZone={`${clock.value}`}
           desc={`${clock.desc}`}
-          clockList={clockList}
-          setClockList={setClockList}
         />
       ))}
     </AppContainer>

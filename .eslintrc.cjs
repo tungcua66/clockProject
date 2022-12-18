@@ -24,6 +24,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    camelcase: 'on',
+    '@typescript-eslint/naming-convention': 'warn',
     'react/react-in-jsx-scope': 0,
     'no-unused-vars': 'warn',
     'react/prop-types': 'warn',

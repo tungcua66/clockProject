@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import gmtList from '../data/gmtList';
 
 const Container = styled.div(() => ({
@@ -15,14 +16,35 @@ const GMTSelectGroup = styled.div(() => ({
   width: '100px',
 }));
 
-const Form = () => {
+interface formProps {
+  clockList: Array <{
+    id: string,
+    value: string,
+    desc: string,
+  }>,
+  setClockList: () => void,
+}
+
+const Form = ({ clockList, setClockList }: formProps) => {
   const [selectedValue, setSelectedValue] = useState();
+
+  const createNewClockHandler = () => {
+    if(selectedValue !== 'Select GMT:' 
+    && clockList.findIndex((clock) => clock.value !== selectedValue) !== -1) {
+      console.log('hey im in');
+      const selectedGMT = gmtList.find((gmt) => gmt.value === selectedValue);
+      setClockList([...clockList, selectedGMT]);
+    }
+  };
+
   return (
     <Container>
       <GMTSelectGroup>
         <select
           value={selectedValue}
-          onChange={(e) => { setSelectedValue(e.target.value); }}
+          onChange={(e) => {
+            setSelectedValue(e.target.value);
+          }}
         >
           {gmtList.map((gmt) => (
             <option key={gmt.id} value={gmt.value}>
@@ -32,7 +54,7 @@ const Form = () => {
           ))}
         </select>
       </GMTSelectGroup>
-      <button type="button" onMouseDown={() => { console.log('selectedValue', selectedValue); }}>
+      <button type="button" onMouseDown={() => { createNewClockHandler(); }}>
         Create clock
       </button>
     </Container>
